@@ -1,4 +1,46 @@
+import React from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { registerUser } from "../store/slices/authSlice";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+
+const registerSchema = z.object ({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "password must be at least 6 characters")
+});
+
+
+
+
 const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { status, error } = useSelector((state) => state.auth);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }, 
+  }
+    = useForm ({
+      resolver: zodResolver(registerSchema),
+    });
+  
+
+    const onSubmit = async (data) => {
+      try {
+        await dispatch (registerUser(data)).unwrap();
+        navigate("/login");
+         } catch (err) {
+          console.error("Failed to register:", err);
+         }
+    };
+
+
+
   return (
     <div className="min-h-[60vh] flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
@@ -6,7 +48,7 @@ const Register = () => {
           Create an Account
         </h2>
 
-        <form className="space-y-4">
+        <form onSubmit = { handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label
               htmlFor="email"
@@ -17,6 +59,7 @@ const Register = () => {
             <input
               type="email"
               id="email"
+              {...register("email")}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500"
               placeholder="Enter your email"
             />
@@ -32,6 +75,7 @@ const Register = () => {
             <input
               type="password"
               id="password"
+              {...register("password")}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500"
               placeholder="Enter your password"
             />
@@ -47,6 +91,7 @@ const Register = () => {
             <input
               type="password"
               id="confirmPassword"
+            {...register("password")}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500"
               placeholder="Confirm your password"
             />

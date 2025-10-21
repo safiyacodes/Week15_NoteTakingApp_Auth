@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../store/slices/authSlice";
+import { logoutUser } from "../store/slices/authSlice";
 
 const Navbar = () => {
   const { pathname } = useLocation();
@@ -17,7 +17,7 @@ const Navbar = () => {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logoutUser());
     navigate("/login");
   };
 
@@ -26,7 +26,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-4">
         <nav className="flex items-center justify-between">
           <Link
-            to="/"
+            to="/login"
             className="flex items-center gap-2 text-yellow-600 font-bold text-xl"
           >
             <Sticky size={24} />
@@ -34,7 +34,8 @@ const Navbar = () => {
           </Link>
 
           <div className="flex gap-4">
-       
+       {isAuthenticated ? (
+    <>
                 <Link
                   to="/"
                   className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors ${
@@ -46,7 +47,7 @@ const Navbar = () => {
                   <Plus size={18} />
                   <span>Create</span>
                 </Link>
-
+   
                 <Link
                   to="/notes"
                   className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors ${
@@ -66,8 +67,9 @@ const Navbar = () => {
                   <LogOut size={18} />
                   <span>Logout</span>
                 </button>
- 
-      
+                </>
+   ) : (
+      <>
                 <Link
                   to="/login"
                   className={`flex items-center gap-1 px-3 py-2 rounded-md transition-colors ${
@@ -91,9 +93,12 @@ const Navbar = () => {
                   <UserPlus size={18} />
                   <span>Register</span>
                 </Link>
-     
+     </>)}
           </div>
-        </nav>
+                 
+                
+                
+                 </nav>
       </div>
     </header>
   );

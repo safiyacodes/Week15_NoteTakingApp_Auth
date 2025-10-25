@@ -12,6 +12,8 @@ const CreateNoteForm = () => {
   const navigate = useNavigate();
   const { loading, error } = useSelector((state) => state.notes);
 
+  
+
   const {
     register,
     handleSubmit,
@@ -32,7 +34,7 @@ const CreateNoteForm = () => {
       navigate("/notes");
     }
   };
-
+ 
   return (
     <form
       className="bg-white p-6 rounded-lg shadow-sm max-w-2xl mx-auto"
@@ -90,7 +92,7 @@ const CreateNoteForm = () => {
         )}
       </div>
 
-      <button
+      <button  
         type="submit"
         disabled={loading}
         className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md transition-colors duration-200 flex items-center justify-center gap-2 disabled:opacity-70"

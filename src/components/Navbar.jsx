@@ -26,7 +26,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-4">
         <nav className="flex items-center justify-between">
           <Link
-            to="/login"
+            to="/"
             className="flex items-center gap-2 text-yellow-600 font-bold text-xl"
           >
             <Sticky size={24} />
